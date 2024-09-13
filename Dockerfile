@@ -1,7 +1,7 @@
-FROM node:alpine
+FROM node:16-alpine
 
 # Install packages
-RUN apk add --update --no-cache supervisor g++ make python
+RUN apk add --update --no-cache supervisor g++ make python3
 
 # Setup app
 RUN mkdir -p /app

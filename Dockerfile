@@ -1,4 +1,4 @@
-FROM node:22-alpine
+FROM node:16-alpine
 
 # Install packages
 RUN apk add --update --no-cache supervisor g++ make python3

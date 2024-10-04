@@ -6,7 +6,7 @@ class Database {
         this.db_file = db_file;
         this.db = undefined;
     }
-    
+
     async connect() {
         this.db = await sqlite.open(this.db_file);
     }
@@ -22,6 +22,7 @@ class Database {
             );
 
             INSERT INTO users (username, password) VALUES ('admin', '${ crypto.randomBytes(32).toString('hex') }');
+            INSERT INTO users (username, password) VALUES ('test', 'password'); -- TEST USERNAME AND PASSWORD
         `);
     }
 

@@ -22,7 +22,7 @@ router.post('/login', (req, res) => {
 	if (username && password) {
 		return db.login(username, password)
 			.then(user => {
-                
+
 				if (user == 'admin') {
                     return res.send(response(fs.readFileSync('/app/flag').toString()))
                 };
@@ -32,10 +32,10 @@ router.post('/login', (req, res) => {
                 };
 				return res.send(response('You are not admin'));
 			})
-			.catch(() => res.send(response('Something went wrong')));
+			.catch(() => res.send(response(`DEBUG: Unexpected error for input Username="${username}" and Password="${password}"`)));
 	}
-	
-	return res.send(response('Missing parameters'));
+
+	return res.send(response('Missing Username or Password'));
 });
 
 router.get('/register', (req, res) => {
@@ -55,7 +55,7 @@ router.post('/register', (req, res) => {
 	return res.send(response('Missing parameters'));
 });
 
-module.exports = database => { 
+module.exports = database => {
 	db = database;
 	return router;
 };

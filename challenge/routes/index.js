@@ -7,17 +7,6 @@ let db;
 
 const response = data => ({ message: data });
 
-const RateLimit = require('express-rate-limit');
-const limiter = RateLimit({
-	windowMs: 15 * 60 * 1000, // 15 minutes
-	limit: 100, // Limit each IP to 100 requests per `window` (here, per 15 minutes).
-	standardHeaders: 'draft-7', // draft-6: `RateLimit-*` headers; draft-7: combined `RateLimit` header
-	legacyHeaders: false, // Disable the `X-RateLimit-*` headers.
-})
-
-// apply rate limiter to all requests
-router.use(limiter);
-
 router.get('/', (req, res) => {
 	return res.redirect('/login');
 });
@@ -33,7 +22,7 @@ router.post('/login', (req, res) => {
 	if (username && password) {
 		return db.login(username, password)
 			.then(user => {
-
+                
 				if (user == 'admin') {
                     return res.send(response(fs.readFileSync('/app/flag').toString()))
                 };
@@ -45,7 +34,7 @@ router.post('/login', (req, res) => {
 			})
 			.catch(() => res.send(response('Something went wrong')));
 	}
-
+	
 	return res.send(response('Missing parameters'));
 });
 
@@ -66,7 +55,7 @@ router.post('/register', (req, res) => {
 	return res.send(response('Missing parameters'));
 });
 
-module.exports = database => {
+module.exports = database => { 
 	db = database;
 	return router;
 };

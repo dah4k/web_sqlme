@@ -17,25 +17,28 @@ router.get('/login', (req, res) => {
 
 router.post('/login', (req, res) => {
 
-	let { username, password } = req.body;
+    let { username, password } = req.body;
 
-	if (username && password) {
-		return db.login(username, password)
-			.then(user => {
+    if (!username) {
+        return res.send(response('Error: Missing Username'));
+    };
 
-				if (user == 'admin') {
-                    return res.send(response(fs.readFileSync('/app/flag').toString()))
-                };
+    if (!password) {
+        return res.send(response('Error: Missing Password'));
+    };
 
-				if (!user) {
-                    return res.send(response('This record does not exist'))
-                };
-				return res.send(response('You are not admin'));
-			})
-			.catch(() => res.send(response(`DEBUG: Unexpected error for input Username="${username}" and Password="${password}"`)));
-	}
+    return db.login(username, password)
+        .then(user => {
+            if (user == 'admin') {
+                return res.send(response(fs.readFileSync('/app/flag').toString()))
+            };
 
-	return res.send(response('Missing Username or Password'));
+            if (!user) {
+                return res.send(response('This record does not exist'));
+            };
+            return res.send(response('You are not admin'));
+        })
+        .catch(() => res.send(response(`DEBUG: Unexpected error for input Username="${username}" and Password="${password}"`)));
 });
 
 router.get('/register', (req, res) => {
